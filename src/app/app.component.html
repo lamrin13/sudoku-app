@@ -1,10 +1,15 @@
-<div class="container">
+ 
+ <div class="container">
+ 
+  <!-- Pyro animation for celebration -->
   <div *ngIf="done" class="pyro">
     <div class="before"></div>
     <div class="after"></div>
   </div>
+
+  <!-- Sudoku board -->
   <div class="table-responsive">
-    <table class="table table-bordered">
+    <table class="table table-bordered sudoku-board">
       <tbody>
         <tr *ngFor="let row of [].constructor(9); let i = index">
           <td
@@ -13,35 +18,48 @@
               'border-top border-left': i % 3 === 0 && j % 3 === 0,
               'border-top': i % 3 === 0 && j % 3 !== 0,
               'border-left': i % 3 !== 0 && j % 3 === 0,
-              'border': true
+              'border': true,
+ 			        'selected': xSelected === i && ySelected === j,
+              'conflict': isConflicting(i, j),
+              'given': isGiven(i, j),
+              'highlight': isHighlighted(i, j)
             }"
             (click)="selectCell(i, j)"
             class="text-center align-middle"
-            style="height: 50px; width: 50px;" <!-- Adjust height and width as needed -->
-          >
+            style="height: 50px; width: 50px;">
             <span *ngIf="grid[i][j] != 0">{{ grid[i][j] }}</span>
           </td>
         </tr>
       </tbody>
     </table>
   </div>
-  <div class="d-flex flex-column align-items-center mt-3">
-    <div class="d-flex flex-wrap justify-content-center mb-2">
-      <div class="m-1" *ngFor="let button of buttons; let i = index">
-        <button
-          [ngClass]="{'btn btn-secondary': activeButton[i], 'btn btn-primary': !activeButton[i]}"
-          [disabled]="activeButton[i]"
-          (click)="fillValue(button)"
-        >
-          {{ button }}
-        </button>
-      </div>
+
+  <!-- Number buttons and erase button -->
+  <div class="button-container">
+    <div *ngFor="let button of buttons; let i = index" class="m-1">
+      <button
+        [ngClass]="{
+          'btn btn-secondary': activeButton[i],
+          'btn btn-primary': !activeButton[i]
+        }"
+        [disabled]="activeButton[i]"
+        (click)="fillValue(button)"
+      >
+        {{ button }}
+      </button>
     </div>
     <div class="m-1">
-      <button class="btn btn-danger" (click)="eraseValue()">
-        <i class="bi bi-trash"></i> <!-- Using Bootstrap Icons for delete icon -->
+      <button class="btn btn-danger" (click)="eraseValue()" [ngbTooltip]="'Erase selected cell'" container="body">
+        <i class="bi bi-trash" ></i> <!-- Using Bootstrap Icons for delete icon -->
+      </button>
+    </div>
+    <div class="m-1">
+      <button class="btn btn-warning" (click)="restart()" [ngbTooltip]="'Restart game'" container="body">
+        <i class="bi bi-arrow-clockwise"></i> <!-- Using Bootstrap Icons for restart icon -->
       </button>
     </div>
   </div>
+   
 </div>
+
 
