@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations'
+import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   trigger,
   state,
@@ -14,7 +14,7 @@ import { ElementRef, Renderer2 } from '@angular/core';
 
 @Component({
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, NgbTooltipModule],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
@@ -41,8 +41,8 @@ import { ElementRef, Renderer2 } from '@angular/core';
     state(
       "red",
       style({
-        background: "purple",
-        color: "white"
+        background: "red",
+        color: "red"
       })
     ),
     state(
@@ -190,6 +190,7 @@ export class AppComponent implements OnInit {
   }
 
   validate(){
+    debugger;
     let flag = false;
     for(let i=0;i<this.rows;i++){
       if(this.xSelected!=i && this.grid[i][this.ySelected]==this.grid[this.xSelected][this.ySelected] && this.grid[this.xSelected][this.ySelected]!=0){
@@ -340,5 +341,43 @@ export class AppComponent implements OnInit {
         }
       }
     return true;
+  }
+
+  isConflicting(row: number, col: number): boolean {
+    // Check row and column conflicts
+    for (let i = 0; i < 9; i++) {
+      if (i !== col && this.grid[row][i] === this.grid[row][col]) {
+        return true;
+      }
+      if (i !== row && this.grid[i][col] === this.grid[row][col]) {
+        return true;
+      }
+    }
+
+    // Check 3x3 box conflict
+    const boxRow = Math.floor(row / 3) * 3;
+    const boxCol = Math.floor(col / 3) * 3;
+    for (let i = boxRow; i < boxRow + 3; i++) {
+      for (let j = boxCol; j < boxCol + 3; j++) {
+        if ((i !== row || j !== col) && this.grid[i][j] === this.grid[row][col]) {
+          return true;
+        }
+      }
+    }
+
+    return false;
+  }
+
+  isGiven(row: number, col: number): boolean {
+    return this.grid[row][col] !== 0;
+  }
+
+  isHighlighted(row: number, col: number): boolean {
+    return this.xSelected === row || this.ySelected === col;
+  }
+
+
+ restart(): void {
+   window.location.reload();
   }
 }
