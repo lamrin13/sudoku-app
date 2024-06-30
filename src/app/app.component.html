@@ -9,21 +9,12 @@
 
   <!-- Sudoku board -->
   <div class="table-responsive">
-    <table class="table table-bordered sudoku-board">
+    <table class="table table-bordered">
       <tbody>
         <tr *ngFor="let row of [].constructor(9); let i = index">
           <td
             *ngFor="let col of [].constructor(9); let j = index"
-            [ngClass]="{
-              'border-top border-left': i % 3 === 0 && j % 3 === 0,
-              'border-top': i % 3 === 0 && j % 3 !== 0,
-              'border-left': i % 3 !== 0 && j % 3 === 0,
-              'border': true,
- 			        'selected': xSelected === i && ySelected === j,
-              'conflict': isConflicting(i, j),
-              'given': isGiven(i, j),
-              'highlight': isHighlighted(i, j)
-            }"
+            [@colorState]="colorState[i][j]"
             (click)="selectCell(i, j)"
             class="text-center align-middle"
             style="height: 50px; width: 50px;">

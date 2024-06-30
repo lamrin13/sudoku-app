@@ -32,34 +32,42 @@ import { ElementRef, Renderer2 } from '@angular/core';
       })
     ),
     state(
-      "#1a237e",
+      "highlight",
       style({
-        background: "#1a237e",
+        background: "#5d92cf",
         color: "white"
+      })
+    ),
+    state(
+      "highlight-light",
+      style({
+        background: "#86a8cf",
+        color: "white",
+        // border: "solid 1px #000"
       })
     ),
     state(
       "red",
       style({
         background: "red",
-        color: "red"
+        color: "black"
       })
     ),
     state(
       "lightblue-grey",
       style({
         background: "lightblue",
-        color: "grey"
+        color: "DimGray"
       })
     ),
     state(
       "blue-grey",
       style({
         background: "#c5cae9",
-        color: "grey"
+        color: "DimGray"
       })
     ),
-    transition("* => *", animate("30ms steps(1)")),
+    transition("* => *", animate("300ms steps(10)")),
   ]),
 ]
 })
@@ -97,7 +105,7 @@ export class AppComponent implements OnInit {
   buttons: number[] =[];
   xSelected: number = -1;
   ySelected: number = -1;
-  breakpoint: number = 1;
+  // breakpoint: number = 1;
   currentPuzzle: string;
   activeButton: boolean[] = [];
   count: number[] = [];
@@ -106,15 +114,15 @@ export class AppComponent implements OnInit {
   filledValues: number = 0;
   done: boolean = false;
   ngOnInit(): void {
-    this.breakpoint = (window.innerWidth <= 450) ? 3 : 1;
+    // this.breakpoint = (window.innerWidth <= 450) ? 3 : 1;
     this.defaultColor();
     for(let i=0;i<9;i++){
       this.buttons[i] = i+1;
     }
   }
-  onResize(event: any) {
-    this.breakpoint = (event.target.innerWidth <= 450) ? 3 : 1;
-  }
+  // onResize(event: any) {
+  //   this.breakpoint = (event.target.innerWidth <= 450) ? 3 : 1;
+  // }
   defaultColor(){
     for(let i=0;i<this.rows;i++){
       this.colorState[i]=[];
@@ -141,14 +149,17 @@ export class AppComponent implements OnInit {
     this.xSelected=x;
     this.ySelected=y;
     if(this.grid[x][y]==0){
-      this.colorState[x][y]="#1a237e"
+      this.colorState[x][y]="highlight"
     }
     else{
-      for(let i=0;i<this.rows;i++)
+      for(let i=0;i<this.rows;i++){
         for(let j=0;j<this.cols;j++){
-          if(this.grid[i][j]==this.grid[x][y])
-            this.colorState[i][j]="#1a237e"
+          if(this.xSelected === i || this.ySelected === j)
+            this.colorState[i][j]="highlight-light"
+          if(this.grid[i][j] == this.grid[x][y])
+            this.colorState[i][j] = "highlight"
         }
+      }
     }
     this.validate();
   }
@@ -177,15 +188,17 @@ export class AppComponent implements OnInit {
     let tmp = this.xSelected+""+this.ySelected;
     if(this.xSelected>=0 && !this.map.includes(tmp)){
       this.colorState[this.xSelected][this.ySelected] = "lightblue";
-      console.log(this.count);
+      // console.log(this.count);
       this.count[this.grid[this.xSelected][this.ySelected]]--;
       this.activeButton[this.grid[this.xSelected][this.ySelected]-1] = false;
       this.grid[this.xSelected][this.ySelected] = 0;
       this.filledValues--;
       this.count[0]++;
-      console.log(this.count);
+      // console.log(this.count);
       this.done = false;
       this.defaultColor();
+      // console.log(this.xSelected, this.ySelected)
+      this.colorState[this.xSelected][this.ySelected]="highlight"
     }
   }
 
