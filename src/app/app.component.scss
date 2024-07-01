@@ -1,129 +1,116 @@
-// .container {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-//   font-family: Arial, Helvetica, sans-serif;
-//   margin: 20px auto;
-//   max-width: 680px;
+$particles: 50;
+$width: 1000;
+$height: 1000;
 
-//   .table-responsive {
-//     width: 100%;
-//     overflow-x: auto;
-//     margin-top: 20px;
+$box-shadow: null;
+$box-shadow2: null;
+@for $i from 0 through $particles {
+  $box-shadow: $box-shadow,
+               random($width)-$width / 2 + px
+               random($height)-$height / 1.2 + px
+               hsl(random(360), 100%, 50%);
+  $box-shadow2: $box-shadow2, 0 0 #fff;
+}
 
-//     table {
-//       border-collapse: collapse;
-//       width: 100%;
-//       max-width: 600px;
-//       margin: auto;
+@mixin keyframes($animationName) {
+  @-webkit-keyframes #{$animationName} {
+    @content;
+  }
 
-//       td {
-//         width: 50px;
-//         height: 50px;
-//         text-align: center;
-//         vertical-align: middle;
-//         font-size: 1.2em;
-//         font-weight: bold;
-//         position: relative;
-//         cursor: pointer;
+  @-moz-keyframes #{$animationName} {
+    @content;
+  }
 
-//         span {
-//           display: block;
-//           line-height: 50px;
-//         }
+  @-o-keyframes #{$animationName} {
+    @content;
+  }
 
-//         &.border-top,
-//         &.border-left {
-//           border-top: 2px solid #ccc;
-//           border-left: 2px solid #ccc;
-//         }
+  @-ms-keyframes #{$animationName} {
+    @content;
+  }
 
-//         &.selected {
-//           background-color: #cfd8dc;
-//         }
+  @keyframes #{$animationName} {
+    @content;
+  }
+}
 
-//         &.conflict {
-//           background-color: #ffcdd2;
-//         }
+@mixin animation($settings) {
+  -moz-animation: $settings;
+  -webkit-animation: $settings;
+  -o-animation: $settings;
+  -ms-animation: $settings;
+  animation: $settings;
+}
 
-//         &.given {
-//           background-color: #f0f4c3;
-//         }
+@mixin animation-delay($settings) {
+  -moz-animation-delay: $settings;
+  -webkit-animation-delay: $settings;
+  -o-animation-delay: $settings;
+  -ms-animation-delay: $settings;
+  animation-delay: $settings;
+}
 
-//         &.highlight {
-//           background-color: #e1bee7;
-//         }
-//       }
-//     }
-//   }
+@mixin animation-duration($settings) {
+  -moz-animation-duration: $settings;
+  -webkit-animation-duration: $settings;
+  -o-animation-duration: $settings;
+  -ms-animation-duration: $settings;
+  animation-duration: $settings;
+}
 
-//   .button-container {
-//     display: flex;
-//     flex-wrap: wrap;
-//     justify-content: center;
-//     margin-top: 20px;
+@mixin transform($settings) {
+  transform: $settings;
+  -moz-transform: $settings;
+  -webkit-transform: $settings;
+  -o-transform: $settings;
+  -ms-transform: $settings;
+}
 
-//     .m-1 {
-//       margin: 5px;
-//     }
+body {
+  margin: 0;
+  padding: 0;
+  background: #000;
+  overflow: hidden;
+}
 
-//     button {
-//       width: 50px;
-//       height: 50px;
-//       font-size: 1.2em;
-//       border-radius: 50%;
-//       margin: 5px;
-//       cursor: pointer;
-//     }
-
-//     .btn-danger {
-//       background-color: #f44336;
-//       color: white;
-//     }
-//   }
-
-//   .pyro {
-//     position: relative;
-//     display: inline-block;
-//     margin-top: 20px;
-//     margin-bottom: 20px;
-//     vertical-align: middle;
-//     pointer-events: none;
-
-//     .before,
-//     .after {
-//       content: "";
-//       position: absolute;
-//       width: 10px;
-//       height: 10px;
-//       border-radius: 50%;
-//       background: #f44336;
-//       box-shadow: 0 0 10px #f44336, inset 0 0 10px #f44336;
-//       transform: translate(-50%, -50%);
-//       animation: explode 1s infinite;
-//     }
-
-//     .after {
-//       animation-delay: 0.5s;
-//     }
-//   }
-
-//   @keyframes explode {
-//     0% {
-//       transform: translate(-50%, -50%) scale(1);
-//       opacity: 1;
-//     }
-//     100% {
-//       transform: translate(-50%, -50%) scale(2);
-//       opacity: 0;
-//     }
-//   }
-// }
+.pyro > .before, .pyro > .after {
+  z-index: 10000;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  box-shadow: $box-shadow2;
+  @include animation((1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards));
+}
+    
+.pyro > .after {
+  @include animation-delay((1.25s, 1.25s, 1.25s));
+  @include animation-duration((1.25s, 1.25s, 6.25s));
+}
 
 
+@include keyframes(bang) {
+  to {
+    box-shadow: $box-shadow;
+  }
+}
 
-
+@include keyframes(gravity) {
+  to {
+    @include transform(translateY(200px));
+    opacity: 0;
+  }  
+}
+@include keyframes(position) {
+  0%, 19.9% {
+    margin-top: 10%;
+    margin-left: 90%;
+  }
+  20%, 39.9% {
+    margin-top: 40%;
+    margin-left: 30%;
+  }
+}
 
 .container {
   display: flex;
@@ -140,23 +127,26 @@
     margin-top: 20px;
 
     table {
-    //   border-collapse: collapse;
       width: 100%;
       max-width: 600px;
       margin: auto;
+
       tr:nth-of-type(3n) {
         border-bottom: 3px solid #000;
       }
+
       tr:first-child {
         border-top: 3px solid #000;
       }
+
       td:nth-child(3n) {
         border-right: 3px solid #000;
-        }
+      }
+
       td:first-child {
         border-left: 3px solid #000;
       }
-      
+
       td {
         width: 50px;
         height: 50px;
@@ -166,12 +156,12 @@
         font-weight: bold;
         position: relative;
         cursor: pointer;
-    
-        border-right: solid 1px grey; 
+
+        border-right: solid 1px grey;
         border-left: solid 1px grey;
-        border-top: solid 1px grey; 
+        border-top: solid 1px grey;
         border-bottom: solid 1px grey;
-        
+
         span {
           display: block;
           line-height: 50px;
@@ -197,7 +187,7 @@
   }
 
   .button-container {
-    display: flex;
+    display: ruby;
     flex-wrap: wrap;
     justify-content: center;
     margin-top: 20px;
@@ -219,7 +209,7 @@
       background-color: #f44336;
       color: white;
     }
-  } 
+  }
 
   @keyframes explode {
     0% {
@@ -233,182 +223,32 @@
   }
 }
 
-@media screen and (max-width:612px) {
-  .button {
-    background-color: #5963f0;
-    border: black;
-    color: white;
-    padding: 12px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 12px;
-    margin: 2px 1px;
-    border-radius: 50%;
-  }
-  .danger-button {
-    background-color: rgb(224, 167, 167);
-    border: black;
-    color: white;
-    padding: 12px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 12px;
-    margin: 2px 1px;
-    border-radius: 50%;
-  }
-  .mat-icon{
-    font-size: 20px;
-  }
-  .disabled-button{
-    background-color: #cfd1ec;
-    border: none;
-    color: white;
-    padding: 12px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 12px;
-    margin: 2px 1px;
-    border-radius: 50%;
-  }
-  .container {
-    display: flex;
-    flex-direction: row;
-    font-size: smaller;
-    font-family: Arial, Helvetica, sans-serif;
-    
+@media screen and (max-width: 612px) {
+  .table-responsive table {
+    td {
+      width: 30px;
+      height: 30px;
+      font-size: 0.8em;
+
+      span {
+        line-height: 30px;
+      }
+    }
   }
 
-  .button-container{
-    display: flex;
-    flex-direction: row;
-  }
-  .flexBox1 {
-    width: 90%;
-    margin: 15px;
-    flex-direction: row;
-  }
-  .flexBox2 {
-    max-width:90%;
-    margin: auto;
-  }
-}
+  .button-container {
+    flex-direction: column;
+    align-items: center;
 
-.button-flex{
-  width: 100%;
-}
-
-$particles: 50;
-$width: 500;
-$height: 500;
-
-$box-shadow: ();
-$box-shadow2: ();
-@for $i from 0 through $particles {
-  $box-shadow: $box-shadow,
-               random($width)-$width / 2 + px
-               random($height)-$height / 1.2 + px
-               hsl(random(360), 100%, 50%);
-  $box-shadow2: $box-shadow2, 0 0 #fff
-}
-@mixin keyframes ($animationName) {
-    @-webkit-keyframes #{$animationName} {
-        @content;
+    .m-1 {
+      margin: 3px;
     }
 
-    @-moz-keyframes #{$animationName} {
-        @content;
+    button {
+      width: 40px;
+      height: 40px;
+      font-size: 1em;
+      margin: 3px;
     }
-
-    @-o-keyframes #{$animationName} {
-        @content;
-    }
-
-    @-ms-keyframes #{$animationName} {
-        @content;
-    }
-
-    @keyframes #{$animationName} {
-        @content;
-    }
-}
-
-@mixin animation-delay ($settings) {
-    -moz-animation-delay: $settings;
-    -webkit-animation-delay: $settings;
-    -o-animation-delay: $settings;
-    -ms-animation-delay: $settings;
-    animation-delay: $settings;
-}
-
-@mixin animation-duration ($settings) {
-    -moz-animation-duration: $settings;
-    -webkit-animation-duration: $settings;
-    -o-animation-duration: $settings;
-    -ms-animation-duration: $settings;
-    animation-duration: $settings;
-}
-
-@mixin animation ($settings) {
-    -moz-animation: $settings;
-    -webkit-animation: $settings;
-    -o-animation: $settings;
-    -ms-animation: $settings;
-    animation: $settings;
-}
-
-@mixin transform ($settings) {
-    transform: $settings;
-    -moz-transform: $settings;
-    -webkit-transform: $settings;
-    -o-transform: $settings;
-    -ms-transform: $settings;
-}
-
-body {
-  margin:0;
-  padding:0;
-  background: #000;
-  overflow: hidden;
-}
-
-.pyro > .before, .pyro > .after {
-  z-index: 10000;
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  box-shadow: $box-shadow2;
-  @include animation((1s bang ease-out infinite backwards, 1s gravity ease-in infinite backwards, 5s position linear infinite backwards));
-}
-    
-.pyro > .after {
-  @include animation-delay((2.25s, 2.25s, 2.25s));
-  @include animation-duration((2.25s, 2.25s, 8.25s));
-}
-        
-@include keyframes(bang) {
-  to {
-    box-shadow:$box-shadow;
-  }
-}
-    
-@include keyframes(gravity)  {
-  to {
-    @include transform(translateY(200px));
-    opacity: 0;
-  }
-}
-    
-@include keyframes(position) {
-  0%, 19.9% {
-    margin-top: 10%;
-    margin-left: 40%;
-  }
-  20%, 39.9% {
-    margin-top: 40%;
-    margin-left: 30%;
   }
 }
