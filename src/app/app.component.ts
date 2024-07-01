@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgbTooltipModule } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -190,7 +190,6 @@ export class AppComponent implements OnInit {
   }
 
   validate(){
-    debugger;
     let flag = false;
     for(let i=0;i<this.rows;i++){
       if(this.xSelected!=i && this.grid[i][this.ySelected]==this.grid[this.xSelected][this.ySelected] && this.grid[this.xSelected][this.ySelected]!=0){
@@ -222,6 +221,8 @@ export class AppComponent implements OnInit {
           this.colorState[this.xSelected][this.ySelected] = "red";
     }
   }
+  
+
   
   isSafe(board: number[][], row:number, col:number, num:number)
   {
@@ -379,5 +380,20 @@ export class AppComponent implements OnInit {
 
  restart(): void {
    window.location.reload();
+  }
+
+  
+@HostListener('document:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent): void {
+   
+      if (this.xSelected >= 0 && this.ySelected >= 0) {
+      const key = event.key;
+      const number = parseInt(key, 10);        
+      if (number >= 1 && number <= 9 && !this.activeButton[number -1]) {
+        this.fillValue(number);
+      } else if (key === 'Backspace' || key === 'Delete') {
+        this.eraseValue();
+      }
+    }
   }
 }

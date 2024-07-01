@@ -1,4 +1,5 @@
- 
+   
+
  <div class="container">
  
   <!-- Pyro animation for celebration -->
@@ -25,6 +26,7 @@
               'highlight': isHighlighted(i, j)
             }"
             (click)="selectCell(i, j)"
+            (keydown)="handleKeyDown($event)"
             class="text-center align-middle"
             style="height: 50px; width: 50px;">
             <span *ngIf="grid[i][j] != 0">{{ grid[i][j] }}</span>
@@ -61,5 +63,4 @@
   </div>
    
 </div>
-
 

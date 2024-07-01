@@ -208,33 +208,7 @@
       background-color: #f44336;
       color: white;
     }
-  }
-
-  .pyro {
-    position: relative;
-    display: inline-block;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    vertical-align: middle;
-    pointer-events: none;
-
-    .before,
-    .after {
-      content: "";
-      position: absolute;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: #f44336;
-      box-shadow: 0 0 10px #f44336, inset 0 0 10px #f44336;
-      transform: translate(-50%, -50%);
-      animation: explode 1s infinite;
-    }
-
-    .after {
-      animation-delay: 0.5s;
-    }
-  }
+  } 
 
   @keyframes explode {
     0% {
@@ -247,66 +221,7 @@
     }
   }
 }
-.flexBox1 {
-  width: 80%;
-  margin: auto;
-}
-.flexBox2 {
-  max-width:60px;
-  margin: auto;
-}
-.buttons{
-    margin-top:5px;
-    width: 50px;
-}
 
-#number{
-    margin-left: 5px;
-}
-
-.button {
-  background-color: #5963f0;
-  border: black;
-  color: white;
-  padding: 16px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 2px 1px;
-  border-radius: 50%;
-}
-.danger-button{
-  background-color: rgb(249, 8, 8);
-  border: black;
-  color: white;
-  padding: 16px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 2px 1px;
-  border-radius: 50%;
-}
-.mat-icon{
-  font-size: 20px;
-}
-.disabled-button{
-  background-color: #cfd1ec;
-  border: none;
-  color: white;
-  padding: 16px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 2px 1px;
-  border-radius: 50%;
-}
-.button-container{
-  display: flex;
-  // flex-direction: column;
-}
 @media screen and (max-width:612px) {
   .button {
     background-color: #5963f0;
@@ -459,8 +374,8 @@ body {
 }
     
 .pyro > .after {
-  @include animation-delay((1.25s, 1.25s, 1.25s));
-  @include animation-duration((1.25s, 1.25s, 6.25s));
+  @include animation-delay((2.25s, 2.25s, 2.25s));
+  @include animation-duration((2.25s, 2.25s, 8.25s));
 }
         
 @include keyframes(bang) {
@@ -486,7 +401,3 @@ body {
     margin-left: 30%;
   }
 }
-
-
-
-
