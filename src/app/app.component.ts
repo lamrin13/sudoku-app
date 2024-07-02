@@ -91,13 +91,12 @@ export class AppComponent implements OnInit {
         if(this.grid[i][j]!=0){
           this.map.push(i+""+j);
           this.filledValues++;
-        }
+        } 
         this.count[+this.currentPuzzle.charAt(i*9+j)]++;
       }
     }
     this.solveSudoku(this.solution)
   }
-
   cols: number;
   rows: number;
   grid: number[][];
@@ -179,7 +178,7 @@ export class AppComponent implements OnInit {
       this.selectCell(this.xSelected,this.ySelected)
     }
     if(this.filledValues==81 && this.result()){
-      console.log("Win");
+      // console.log("Win");
       this.done = true;
     }
   }
@@ -393,6 +392,7 @@ export class AppComponent implements OnInit {
 
  restart(): void {
    window.location.reload();
+   this.done = false
   }
 
   
@@ -409,4 +409,22 @@ export class AppComponent implements OnInit {
       }
     }
   }
+  fillHint(): void{
+    let emptyCells = 81 - this.filledValues;
+    let randomCell = Math.ceil(Math.random() * emptyCells);
+    console.log(emptyCells, randomCell)
+    for(let i=0;i<9;i++) {
+      for(let j=0;j<9;j++){
+        if(this.grid[i][j] === 0) {
+          randomCell --;
+        }
+        if(randomCell === 0 && this.grid[i][j] === 0) {
+          this.xSelected = i;
+          this.ySelected = j;
+          this.fillValue(this.solution[i][j])
+        }
+      }
+    }
+  }
 }
+

@@ -1,8 +1,19 @@
+
 <div class="container">
   <!-- Pyro animation for celebration -->
   <div *ngIf="done" class="pyro">
     <div class="before"></div>
     <div class="after"></div>
+    <div class="modal fade-in" tabindex="-1" role="dialog"  style="display: block;">
+      <div class="modal-dialog modal-sm modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-body" style="text-align: center;">
+            <p>Congratulations!</p>
+            <button type="button" class="btn btn-primary" (click)="restart()">New Game</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Sudoku board -->
@@ -38,13 +49,19 @@
         {{ button }}
       </button>
     </div>
+    
+    <div class="m-1">
+      <button class="btn btn-warning" (click)="fillHint()" [ngbTooltip]="'Hint'" container="body">
+        <i class="bi bi-lightbulb"></i> <!-- Using Bootstrap Icons for delete icon -->
+      </button>
+    </div>
     <div class="m-1">
       <button class="btn btn-danger" (click)="eraseValue()" [ngbTooltip]="'Erase selected cell'" container="body">
         <i class="bi bi-trash"></i> <!-- Using Bootstrap Icons for delete icon -->
       </button>
     </div>
     <div class="m-1">
-      <button class="btn btn-warning" (click)="restart()" [ngbTooltip]="'Restart game'" container="body">
+      <button class="btn btn-success" (click)="restart()" [ngbTooltip]="'Restart game'" container="body">
         <i class="bi bi-arrow-clockwise"></i> <!-- Using Bootstrap Icons for restart icon -->
       </button>
     </div>

@@ -6,8 +6,8 @@ $box-shadow: null;
 $box-shadow2: null;
 @for $i from 0 through $particles {
   $box-shadow: $box-shadow,
-               random($width)-$width / 2 + px
-               random($height)-$height / 1.2 + px
+               random($width)- calc($width / 2) + 10 + px
+               random($height) - calc($height/2) + 10 + px
                hsl(random(360), 100%, 50%);
   $box-shadow2: $box-shadow2, 0 0 #fff;
 }
@@ -76,6 +76,7 @@ body {
 .pyro > .before, .pyro > .after {
   z-index: 10000;
   position: absolute;
+  top:0;
   width: 10px;
   height: 10px;
   border-radius: 50%;
@@ -104,10 +105,10 @@ body {
 @include keyframes(position) {
   0%, 19.9% {
     margin-top: 10%;
-    margin-left: 90%;
+    margin-left: -40%;
   }
   20%, 39.9% {
-    margin-top: 40%;
+    margin-top: 20%;
     margin-left: 30%;
   }
 }
@@ -252,3 +253,4 @@ body {
     }
   }
 }
+
